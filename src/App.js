@@ -1,21 +1,17 @@
 import AttendanceController from './controller/AttendanceController.js';
-import InputView from './views/InputView.js';
-import OutputView from './views/OutputView.js';
 
 class App {
   #attendanceController;
 
   async run() {
     this.#attendanceController = new AttendanceController();
+    let menu = null;
 
-    await this.handleMenu();
-  }
-
-  async handleMenu() {
-    try {
-      const Menu = await InputView.readMenu();
-    } catch (error) {
-      OutputView.print(error.message);
+    while (menu !== 'Q') {
+      menu = await this.handleMenu();
+      if (menu === '1') {
+        this.#attendanceController.enterAttendance();
+      }
     }
   }
 }
