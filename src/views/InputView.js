@@ -11,9 +11,11 @@ const INPUT_MESSAGES = Object.freeze({
   menu3: '3. 크루별 출석 기록 확인',
   menu4: '4. 제적 위험자 확인',
   menuQ: 'Q. 종료\n',
+  nickname: '\n닉네임을 입력해 주세요.\n',
+  time: '등교시간을 입력해 주세요.\n',
 });
 
-const ERROR_MESSAGE = '[ERROR] 잘못된 형식을 입력하였습니다.';
+const ERROR_MESSAGE = '\n[ERROR] 잘못된 형식을 입력하였습니다.';
 
 // const SPERATE_STRING = ',';
 
@@ -26,12 +28,33 @@ const InputView = Object.freeze({
     Console.print(INPUT_MESSAGES.menu4);
     const INPUT = await Console.readLineAsync(INPUT_MESSAGES.menuQ);
     this.validInput(INPUT);
+    this.validMenu(INPUT);
+
+    return INPUT;
+  },
+
+  async readNickname() {
+    const INPUT = await Console.readLineAsync(INPUT_MESSAGES.nickname);
+    this.validInput(INPUT);
+
+    return INPUT;
+  },
+
+  async readTime() {
+    const INPUT = await Console.readLineAsync(INPUT_MESSAGES.time);
+    this.validInput(INPUT);
 
     return INPUT;
   },
 
   validInput(input) {
-    if (!input) {
+    if (input === '') {
+      throw new Error(ERROR_MESSAGE);
+    }
+  },
+
+  validMenu(input) {
+    if (input !== '1' && input !== '2' && input !== '3' && input !== '4' && input !== 'Q') {
       throw new Error(ERROR_MESSAGE);
     }
   },

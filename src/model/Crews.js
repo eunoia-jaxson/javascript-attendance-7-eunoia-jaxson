@@ -29,6 +29,15 @@ class Crews {
     });
     return attendances;
   }
+
+  getNicknames() {
+    return this.#attendance.map((attendance) => attendance.getNickname());
+  }
+
+  storeAttendance(nickname, time) {
+    const temp = this.#attendance.find((attendance) => attendance.getNickname() === nickname);
+    return temp.storeAttendance(time);
+  }
 }
 
 export default Crews;
