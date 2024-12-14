@@ -48,6 +48,13 @@ class Crews {
     const temp = this.#attendance.find((attendance) => attendance.getNickname() === nickname);
     return temp.checkAttendance();
   }
+
+  warningAttendance() {
+    const temp = this.#attendance.filter((attendance) => {
+      const absentFromLate = Math.floor(attendance.getLate() / 3);
+      return attendance.getAbsent() + absentFromLate > 2;
+    });
+  }
 }
 
 export default Crews;

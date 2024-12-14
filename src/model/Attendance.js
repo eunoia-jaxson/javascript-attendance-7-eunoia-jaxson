@@ -22,6 +22,14 @@ class Attendance {
     return this.#nickname;
   }
 
+  getLate() {
+    return this.#late;
+  }
+
+  getAbsent() {
+    return this.#absent;
+  }
+
   storeAttendance(time) {
     const datetime = `${TODAY.getFullYear()}-${TODAY.getMonth() + 1}-${TODAY.getDate()} ${time}`;
     const datetimes = this.#datetimes.map((date) => date.slice(0, 10));
@@ -54,8 +62,9 @@ class Attendance {
     this.otherDay(dateTime);
   }
 
-  toString() {
-    return `${this.#nickname}: ${this.#datetimes}\n ${this.#attendance} ${this.#late} ${this.#absent}\n\n`;
+  checkAttendance() {
+    const sentences = `이번 달 ${this.#nickname}의 출석 기록입니다.`;
+    return sentences;
   }
 
   setCount() {

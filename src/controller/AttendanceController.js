@@ -32,6 +32,10 @@ class AttendanceController {
     return this.#crews.checkAttendance(nickname);
   }
 
+  async warningAttendance() {
+    return this.#crews.warningAttendance();
+  }
+
   validNickname(nickname) {
     if (!this.#crews.getNicknames().includes(nickname)) {
       throw new Error(ERROR_MESSAGES.none);

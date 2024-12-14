@@ -96,7 +96,8 @@ class App {
 
   async warningAttendance() {
     try {
-      OutputView.print(await this.#attendanceController.storeAttendance(nickname, time));
+      OutputView.print('\n제적 위험자 조회 결과');
+      OutputView.print(await this.#attendanceController.warningAttendance());
       return false;
     } catch (error) {
       OutputView.print(error.message);
