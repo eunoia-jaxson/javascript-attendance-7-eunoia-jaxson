@@ -23,6 +23,21 @@ class App {
         return true;
       }
     }
+    if (menu === '2') {
+      if (await this.modifyAttendance()) {
+        return true;
+      }
+    }
+    if (menu === '3') {
+      if (await this.checkAttendance()) {
+        return true;
+      }
+    }
+    if (menu === '4') {
+      if (await this.warningAttendance()) {
+        return true;
+      }
+    }
     return false;
   }
 
@@ -43,6 +58,44 @@ class App {
       this.#attendanceController.validNickname(nickname);
       const time = await InputView.readTime();
       this.#attendanceController.validTime(time);
+      OutputView.print(await this.#attendanceController.storeAttendance(nickname, time));
+      return false;
+    } catch (error) {
+      OutputView.print(error.message);
+      return true;
+    }
+  }
+
+  async modifyAttendance() {
+    try {
+      const nickname = await InputView.readModifyNickname();
+      this.#attendanceController.validNickname(nickname);
+      const date = await InputView.readModifyDate();
+      this.#attendanceController.validModifyDate(date);
+      const time = await InputView.readModifyTime();
+      this.#attendanceController.validTime(time);
+      OutputView.print(await this.#attendanceController.modifyAttendance(nickname, date, time));
+      return false;
+    } catch (error) {
+      OutputView.print(error.message);
+      return true;
+    }
+  }
+
+  async checkAttendance() {
+    try {
+      const nickname = await InputView.readNickname();
+      this.#attendanceController.validNickname(nickname);
+      OutputView.print(await this.#attendanceController.checkAttendance(nickname));
+      return false;
+    } catch (error) {
+      OutputView.print(error.message);
+      return true;
+    }
+  }
+
+  async warningAttendance() {
+    try {
       OutputView.print(await this.#attendanceController.storeAttendance(nickname, time));
       return false;
     } catch (error) {

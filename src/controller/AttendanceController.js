@@ -10,6 +10,7 @@ const ERROR_MESSAGES = Object.freeze({
   weekend: `\n[ERROR] ${TODAY.getMonth() + 1}월 ${TODAY.getDate()}일 ${DAY[TODAY.getDay()]}요일은 등교하는 날이 아닙니다.`,
   format: '\n[ERROR] 잘못된 형식을 입력하였습니다.',
   boundary: '\n[ERROR] 캠퍼스 운영 시간에만 출석이 가능합니다.',
+  future: '\n[ERROR] 아직 수정할 수 없습니다.',
 });
 
 class AttendanceController {
@@ -21,6 +22,14 @@ class AttendanceController {
 
   async storeAttendance(nickname, time) {
     return this.#crews.storeAttendance(nickname, time);
+  }
+
+  async modifyAttendance(nickname, date, time) {
+    return this.#crews.modifyAttendance(nickname, date, time);
+  }
+
+  async checkAttendance(nickname) {
+    return this.#crews.checkAttendance(nickname);
   }
 
   validNickname(nickname) {
@@ -54,7 +63,27 @@ class AttendanceController {
   }
 
   validDate() {
-    if (TODAY.getDay() === 0 /* || TODAY.getDay() === 6 */ || TODAY.getDate() === 25) {
+    if (TODAY.getDay() === 0 || TODAY.getDay() === 6 || TODAY.getDate() === 25) {
+      throw new Error(ERROR_MESSAGES.weekend);
+    }
+  }
+
+  validModifyDate(date) {
+    if (TODAY.getDate() < date) {
+      throw new Error(ERROR_MESSAGES.future);
+    }
+    if (
+      date === 1 ||
+      date === 8 ||
+      date === 15 ||
+      date === 22 ||
+      date === 29 ||
+      date === 7 ||
+      date === 14 ||
+      date === 21 ||
+      date === 28 ||
+      date === 25
+    ) {
       throw new Error(ERROR_MESSAGES.weekend);
     }
   }

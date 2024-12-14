@@ -39,6 +39,21 @@ class Attendance {
     return this.#storeMessage;
   }
 
+  modifyAttendance(date, time) {
+    const dateTime = new Date(`${TODAY.getFullYear()}-${TODAY.getMonth() + 1}-${date} ${time}`);
+    const attendanceDate = this.#datetimes.find(
+      (datetime) => Number(datetime.slice(8, 10)) === Number(date),
+    );
+    attendanceDate.replace(attendanceDate.slice(12), time);
+    if (this.modifyMonday(attendanceDate)) {
+      if (this.monday(dateTime)) {
+        return;
+      }
+    }
+    this.modifyOtherDay(attendanceDate);
+    this.otherDay(dateTime);
+  }
+
   toString() {
     return `${this.#nickname}: ${this.#datetimes}\n ${this.#attendance} ${this.#late} ${this.#absent}\n\n`;
   }
@@ -53,6 +68,36 @@ class Attendance {
         continue;
       }
     }
+  }
+
+  modifyMonday(date) {
+    if (date.getDay() === 1) {
+      const boundary = new Date(date.setHours(13));
+      if (this.modifyLate(boundary, date)) {
+        return true;
+      }
+      if (this.modifyAbsent(boundary, date)) {
+        return true;
+      }
+      this.#attendance -= 1;
+      return true;
+    }
+    return false;
+  }
+
+  modifyOtherDay(date) {
+    if (date.getDay() !== 1) {
+      const boundary = new Date(date.setHours(10));
+      if (this.setLate(boundary, date)) {
+        return true;
+      }
+      if (this.setAbsent(boundary, date)) {
+        return true;
+      }
+      this.#attendance += 1;
+      return true;
+    }
+    return false;
   }
 
   monday(date) {
@@ -134,6 +179,24 @@ class Attendance {
     boundary.setMinutes(30);
     if (boundary.getTime() - date.getTime() < 0) {
       this.#absent += 1;
+      return true;
+    }
+    return false;
+  }
+
+  modifyLate(boundary, date) {
+    boundary.setMinutes(5);
+    if (boundary.getTime() - date.getTime() < 0) {
+      this.#late -= 1;
+      return true;
+    }
+    return false;
+  }
+
+  modifyAbsent(boundary, date) {
+    boundary.setMinutes(30);
+    if (boundary.getTime() - date.getTime() < 0) {
+      this.#absent -= 1;
       return true;
     }
     return false;

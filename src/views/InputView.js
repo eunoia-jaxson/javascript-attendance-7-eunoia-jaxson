@@ -12,7 +12,10 @@ const INPUT_MESSAGES = Object.freeze({
   menu4: '4. 제적 위험자 확인',
   menuQ: 'Q. 종료\n',
   nickname: '\n닉네임을 입력해 주세요.\n',
+  modifyNickname: '\n출석을 수정하려는 크루의 닉네임을 입력해 주세요.\n',
+  date: '수정하려는 날짜(일)를 입력해 주세요.\n',
   time: '등교시간을 입력해 주세요.\n',
+  modifyTime: '언제로 변경하겠습니까?\n',
 });
 
 const ERROR_MESSAGE = '\n[ERROR] 잘못된 형식을 입력하였습니다.';
@@ -35,6 +38,27 @@ const InputView = Object.freeze({
 
   async readNickname() {
     const INPUT = await Console.readLineAsync(INPUT_MESSAGES.nickname);
+    this.validInput(INPUT);
+
+    return INPUT;
+  },
+
+  async readModifyNickname() {
+    const INPUT = await Console.readLineAsync(INPUT_MESSAGES.modifyNickname);
+    this.validInput(INPUT);
+
+    return INPUT;
+  },
+
+  async readModifyDate() {
+    const INPUT = await Console.readLineAsync(INPUT_MESSAGES.date);
+    this.validInput(INPUT);
+
+    return INPUT;
+  },
+
+  async readModifyTime() {
+    const INPUT = await Console.readLineAsync(INPUT_MESSAGES.modifyTime);
     this.validInput(INPUT);
 
     return INPUT;

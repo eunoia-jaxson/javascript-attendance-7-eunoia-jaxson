@@ -38,6 +38,16 @@ class Crews {
     const temp = this.#attendance.find((attendance) => attendance.getNickname() === nickname);
     return temp.storeAttendance(time);
   }
+
+  modifyAttendance(nickname, time) {
+    const temp = this.#attendance.find((attendance) => attendance.getNickname() === nickname);
+    return temp.modifyAttendance(time);
+  }
+
+  checkAttendance(nickname) {
+    const temp = this.#attendance.find((attendance) => attendance.getNickname() === nickname);
+    return temp.checkAttendance();
+  }
 }
 
 export default Crews;
